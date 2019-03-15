@@ -1,5 +1,7 @@
 # [Java核心技术(进阶)](https://www.icourse163.org/course/ECNU-1003718005)
 
+[TOC]
+
 ## 第零章 导学章 
 
 ### 第一节 导学
@@ -390,4 +392,302 @@ GB2312
 - GB18030 > GBK > GB2312
 
 #### 字符编码(4)
+
+- Unicode(字符集)
+  - 目标：不断扩充，存储全世界所有的字符
+- 编码方案
+  - UTF-8，兼容ASCII，变长(1-4个字节存储字符)，经济，方便传输
+  - UTF-16，用变长(2-4个字节)来存储所有字符
+  - UTF-32，用32bits(4个字节)存储所有字符
+
+#### 字符编码(5)
+
+- ANSI编码
+  - Windows上非Unicode的默认编码(Windows code pages)
+  - 在简体中文Windows操作系统中，ANSI 编码代表GBK 编码
+  - 在繁体中文Windows操作系统中，ANSI编码代表Big5
+  - 记事本默认是采用ANSI保存
+  - ANSI编码文件不能在兼容使用
+
+![1552360179613](assets/1552360179613.png)
+
+#### Java的字符编码
+
+- 源文件编码：采用UTF-8编码
+  - Eclipse，右键java文件，属性，resource，选择UTF-8
+  - Eclipse，右键项目，属性，resource，选择UTF-8
+- 程序内部采用UTF-16编码存储所有字符(不是程序员控制)
+- 和外界(文本文件)的输入输出尽量采用UTF-8编码
+  - 不能使用一种编码写入，换另外一种编码读取
+- 通过CharsetTest.java, TxtReadUTF8.java, TxtWriteUTF8.java来了解Java的字符编码
+
+#### 总结
+
+- 总结
+  - 了解字符编码的分类
+  - 了解Java的字符编码和文件的输入输出
+
+#### 代码(1) CharsetTest.java
+
+![1552360547547](assets/1552360547547.png)
+
+#### 代码(2) TxtWriteUTF8.java
+
+![1552360648542](assets/1552360648542.png)
+
+#### 代码(3) TxtReadUTF8.java
+
+![1552360679906](assets/1552360679906.png)
+
+#### 代码(4) TxtWriteGBK.java
+
+![1552360715706](assets/1552360715706.png)
+
+#### 代码(5) TxtReadGBK.java
+
+![1552360754202](assets/1552360754202.png)
+
+#### 代码(6) StringTest.java
+
+![1552360803070](assets/1552360803070.png)
+
+### 第二节Java国际化编程
+
+#### 国际化编程
+
+- Internationalization, 缩写为i18n.
+- 多语言版本的软件
+  - 一套软件，多个语言包
+  - 根据语言设定，可以切换显示文本
+
+#### Java国际化编程
+
+- Java是第一个设计成支持国际化的编程语言
+  - java.util.ResourceBundle 用于加载一个语言_国家语言包
+  - java.util.Locale 定义一个语言_国家
+  - java.text.MessageFormat 用于格式化带占位符的字符串
+  - java.text.NumberFormat 用于格式化数字/金额
+  - java.text.DateFormat用于格式化日期时间
+  - java.time.format.DateTimeFormatter用于格式化日期时间
+  (后4个Format参见《Java核心技术》第8章)
+
+#### 国际化HelloWorld
+
+![1552360993289](assets/1552360993289.png)
+
+#### Locale类
+
+- Locale(zh_CN, en_US,…)
+  - 语言，zh，en等
+  - 国家/地区，CN，US等
+  - 其他变量(variant)(几乎不用)
+- Locale方法
+  - getAvailableLocales()返回所有的可用Locale
+  - getDefault()返回默认的Locale
+
+#### 语言文件(1)
+
+- 语言文件
+  - 一个Properties文件(参见《Java核心技术》第十章)
+  - 包含K-V对，每行一个K-V，例如：age=20
+  - 命名规则
+    - 包名+语言+国家地区.properties, (语言和国家地区可选)
+    - message.properties
+    - message_zh.properties
+    - message_zh_CN.properties
+
+#### 语言文件(2)
+
+- 语言文件
+  - 存储文件必须是ASCII码文件
+  - 如果是ASCII以外的文字，必须用Unicode的表示\uxxxx
+  - 可以采用native2ascii.exe (%JAVA_HOME%\bin目录下)进行转码
+
+![1552361198846](assets/1552361198846.png)
+
+#### ResourceBundle类(1)
+
+- ResourceBundle
+  - 根据Locale要求，加载语言文件(Properties文件)
+  - 存储语言集合中所有的K-V对
+  - getString(String key) 返回所对应的value
+
+#### ResourceBundle类(2)
+
+- ResourceBundle 根据key找value的查找路径
+  - 包名_当前Locale语言_当前Locale国家地区_当前Locale变量(variant)
+  - 包名_当前Locale语言_当前Locale国家地区
+  - 包名_当前Locale语言
+  - 包名_默认Locale语言_默认Locale国家地区_默认Locale变量(variant)
+  - 包名_默认Locale语言_默认Locale国家地区
+  - 包名_默认Locale语言
+  - 包名
+
+#### 其他国际化
+
+- 日期/时间国际化
+  - DateTimeFormatter和Locale的结合
+- 数字/金额国际化
+  - NumberFormat和Locale结合
+
+#### 总结
+- Java国际化总结
+  - ResourceBundle和Locale类
+  - Properties文件的制作和native2ascii的转化
+
+#### 代码(1) LocaleTest.java
+
+![1552361479496](assets/1552361479496.png)
+
+#### 代码(2) HelloWorld.java
+
+![1552361525771](assets/1552361525771.png)
+
+#### 代码(3) NewHelloWorld.java
+
+![1552361568441](assets/1552361568441.png)
+
+#### 代码(4) NameTest.java
+
+![1552361615960](assets/1552361615960.png)
+
+#### 代码(5) message_en_US.properties
+
+![1552361638453](assets/1552361638453.png)
+
+#### 代码(6) message_zh_CN.properties
+
+![1552361670075](assets/1552361670075.png)
+
+#### 代码(7) msg_zh_CN.properties
+
+![1552361715268](assets/1552361715268.png)
+
+
+
+### 第三节Java高级字符串处理
+
+#### 大纲
+
+- 正则表达式
+- 其他字符串操作
+  - 集合和字符串互转
+  - 字符串转义
+  - 变量名字格式化
+  - 从字符串到输入流
+
+#### 正则表达式(1)
+- 如何识别给定字符串为合法的邮箱地址
+  - a@b.com √
+  - a@@b.com ╳
+  - a@b ╳
+  - @a.com ╳
+  - a@b@c.com ╳
+- 如何认定一个字符串满足一定的规律
+
+#### 正则表达式(2)
+- 正则表达式(Regular Expression)
+  - 规则表达式，计算机科学的一个基础概念
+  - 用事先定义好的一些特定字符、及这些特定字符的组合，组成一个“规则字符串”
+  - ^[A-Za-z]+$， 代表着一个字符串，只能由26英文字母组成
+  - 作用
+    - 测试字符串内的模式
+    - 识别/替换文本
+    - 提取文本
+
+#### 正则表达式(3)
+- 正则表达式独立于特定语言（Java, Perl, Python, PHP…）
+- 正则表达式的匹配模板
+  - 定界符
+  - 原子
+  - 特殊功能字符(元字符)
+  - 模式修正符
+- 推荐书籍：精通正则表达式(第三版)，Jeffrey E.F.Friedl著，余晟翻译，电子工业出版社，2012.
+
+#### Java的正则表达式
+- java.util.regex包
+  - Pattern 正则表达式的编译表示
+    - compile 编译一个正则表达式为Pattern对象
+    - matcher 用Pattern对象匹配一个字符串，返回匹配结果
+  - Matcher
+    - Index Methods(位置方法) // start(), start(int group), end(), end(int group)
+    - Study Methods(查找方法) // lookingAt(), find(), find(int start), matches()
+    - Replacement Methods(替换方法) //replaceAll(String replacement)
+
+- 查看例子
+
+#### 其他字符串操作
+-  字符串和集合互转
+   -  [1,2,3], “1,2,3”
+-  字符串转义
+   -  对关键字符转义
+-  变量名字格式化
+   -  名字驼峰命名
+-  字符串输入流
+   -  将字符串转为一个输入流
+   -  输入流可以定义为Scanner，这是Online Judge的实现原理
+
+#### 总结
+- 灵活使用正则表达式
+- 多使用第三方库：Apache Commons Lang. Guava等
+  - github.com
+  - mvnrepository.com
+  - www.open-open.com
+  - ……
+
+#### 代码(1) MatcherDemo.java
+
+![1552379727752](assets/1552379727752.png)
+
+#### 代码(2) MatchesLooking.java
+
+![1552379784291](assets/1552379784291.png)
+
+#### 代码(3) RegexDemo.java
+
+![ss1552379838271](assets/1552379838271.png)
+
+### 第四章高级文件处理
+
+#### 第一节XML简介
+
+##### XML基本概念
+
+- XML(eXtensible Markup Language)，www.w3.org
+- 可扩展标记语言：意义+数据
+- 标签可自行定义，具有自我描述性
+- 纯文本表示，跨系统/平台/语言
+- W3C标准(1998年，W3C发布了XML1.0，包括几乎所有的Unicode字符)
+
+##### 书店示例(W3School)
+
+![1552615490635](assets/1552615490635.png)
+
+##### XML结构
+
+- 常规语法
+  - 任何的起始标签都必须有一个结束标签。
+  - 简化写法，例如，<name></name>可以写为<name/>。
+  - 大小写敏感，如<name>和<Name>不一样。
+  - 每个文件都要有一个根元素。
+  - 标签必须按合适的顺序进行嵌套，不可错位。
+  - 所有的特性都必须有值，且在值的周围加上引号。
+  - 需要转义字符，如“<”需要用&lt;代替。
+  - 注释：<!-- 注释内容-->
+
+##### XML扩展(1)
+- DTD(Document Type Definition)
+  - 定义XML 文档的结构
+  - 使用一系列合法的元素来定义文档结构
+  - 可嵌套在xml文档中，或者在xml中引用
+
+![1552615600294](assets/1552615600294.png)
+
+##### XML扩展(2)
+- XML Schema(XSD，XML Schema Definition)
+  - 定义XML 文档的结构, DTD的继任者
+  - 支持数据类型，可扩展，功能更完善、强大
+  - 采用xml编写
+
+![1552615687328](assets/1552615687328.png)
 
