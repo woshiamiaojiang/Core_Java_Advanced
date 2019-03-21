@@ -691,3 +691,52 @@ GB2312
 
 ![1552615687328](assets/1552615687328.png)
 
+XML扩展(3)
+
+- XSL
+  - 扩展样式表语言(eXtensible Stylesheet Language)
+  - XSL作用于XML，等同于CSS作用于HTML
+  - 内容
+    - XSLT: 转换XML 文档
+    - XPath: 在XML 文档中导航
+    - XSL-FO: 格式化XML文档
+  - 可进一步访问http://www.w3school.com.cn/x.asp 进行学习
+
+总结
+
+- 总结
+  - 了解XML的基础概念
+  - 了解XML的多个分支技术
+
+#### 第二节XML解析
+
+##### XML解析
+
+XML解析方法
+  - 树结构
+    - DOM: Document Object Model 文档对象模型，擅长(小规模)读/写
+  - 流结构
+    - SAX: Simple API for XML 流机制解释器(推模式)，擅长读
+    - Stax: The Streaming API for XML 流机制解释器(拉模式)，擅长读，JDK 6 引入
+
+##### DOM
+
+DOM 是W3C 处理XML 的标准API
+
+- 直观易用。
+- 其处理方式是将XML 整个作为类似树结构的方式读入内存中以便操作及解析，方便修改。
+- 解析大数据量的XML 文件，会遇到内存泄露及程序崩溃的风险。
+
+##### DOM示例
+
+![1553063899411](assets/1553063899411.png)
+
+##### DOM类
+- DocumentBuilder 解析类，parse方法
+- Node 节点主接口，getChildNodes返回一个NodeList
+- NodeList 节点列表，每个元素是一个Node
+- Document 文档根节点
+- Element 标签节点元素(每一个标签都是标签节点)
+- Text节点(包含在XML元素内的，都算Text节点)
+- Attr节点(每个属性节点)
+- 查看相关例子
